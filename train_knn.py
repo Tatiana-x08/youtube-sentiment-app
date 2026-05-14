@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 # cargar dataset
-df = pd.read_csv("comentarios.csv")
+df = pd.read_excel("resenas.xlsx")
 
 # cargar Doc2Vec
 modelo = Doc2Vec.load("modelo/modelo_doc2vec.model")
@@ -18,8 +18,8 @@ y = []
 # crear embeddings
 for _, row in df.iterrows():
 
-    texto = row["comentario"]
-    etiqueta = row["sentimiento"]
+    texto = row["mensaje"]
+    etiqueta = 1 if row["tipo"] == "pos" else 0
 
     tokens = texto.lower().split()
 

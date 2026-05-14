@@ -1,5 +1,7 @@
 from utils.load_model import modelo
-import random
+import joblib
+
+knn = joblib.load("modelo/knn_model.pkl")
 
 def predecir_sentimiento(texto):
 
@@ -7,12 +9,13 @@ def predecir_sentimiento(texto):
 
     vector = modelo.infer_vector(tokens)
 
-    # temporal hasta tener clasificador real
-    resultado = random.choice([
-        "😊 Positivo",
-        "😡 Negativo"
-    ])
+    pred = knn.predict([vector])[0]
 
-    confianza = random.uniform(0.70, 0.99)
+    if pred == 1:
+        resultado = "😊 Positivo"
+    else:
+        resultado = "😡 Negativo"
+
+    confianza = max(knn.predict_proba([vector])[0])
 
     return resultado, confianza

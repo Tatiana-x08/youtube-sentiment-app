@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.predict import predecir_sentimiento
 
 st.title("Analizar Comentario")
 
@@ -9,17 +10,18 @@ comentario = st.text_area(
 
 if st.button("Analizar sentimiento"):
 
-    # Resultado temporal
-    resultado = "😊 Positivo"
-    confianza = 0.91
+    if comentario.strip() == "":
+        st.warning("Escribe un comentario primero.")
+    else:
+        resultado, confianza = predecir_sentimiento(comentario)
 
-    st.subheader("Resultado")
+        st.subheader("Resultado")
 
-    st.success(resultado)
+        st.success(resultado)
 
-    st.metric(
-        label="Confianza",
-        value=f"{confianza*100:.2f}%"
-    )
+        st.metric(
+            label="Confianza",
+            value=f"{confianza*100:.2f}%"
+        )
 
-    st.progress(confianza)
+        st.progress(confianza)
